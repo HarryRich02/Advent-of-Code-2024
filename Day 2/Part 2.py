@@ -1,17 +1,39 @@
-fList = open("test.txt").read().split("\n")
-safe = 0
-for i in range(len(fList)):
-    line = fList[i].split()
-    increasing = int(line[0]) < int(line[1])
-    unsafe = 0
-    for j in range(len(line)-1):
-        if increasing:
-            if int(line[j]) >= int(line[j+1]) or int(line[j+1]) - int(line[j]) > 3:
-                unsafe += 1
-        else:
-            if int(line[j]) <= int(line[j+1]) or int(line[j]) - int(line[j+1]) > 3:
-                unsafe += 1
-        print(unsafe)
-    if unsafe < 2:
-        safe += 1
-print(safe)
+with open("input.txt", "r") as f:
+    data = [list(map(int, x)) for x in [line.strip().split(" ") for line in f]]
+
+total = 0
+
+for i in range(len(data)):
+    print(data[i]) #@@@REMOVE
+
+    safe = True
+
+    dampener = False
+    for k in range(2):
+        increasing = data[i][0] < data[i][1]
+
+        for j in range(len(data[i])-1):
+            if increasing:
+                if data[i][j] >= data[i][j+1] or data[i][j+1] - data[i][j] > 3:
+                    if dampener:
+                        safe = False
+                    else:
+                        data[i].pop(j+1)
+                        dampener = True
+                        break
+            else:
+                if data[i][j] <= data[i][j+1] or data[i][j] - data[i][j+1] > 3:
+                    if dampener:
+                        safe = False
+                    else:
+                        data[i].pop(j+1)
+                        dampener = True
+                        break
+    
+    print(safe)
+    input()
+
+    if safe:
+        total += 1
+
+print(total)
