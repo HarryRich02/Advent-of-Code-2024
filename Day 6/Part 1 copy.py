@@ -45,4 +45,5 @@ while guard[0]>=0 and guard[1]>=0:
                 positions += 1
     else:
         break
+    
 print(positions)
